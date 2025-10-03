@@ -156,7 +156,7 @@ LiveCoursesListScreen
     ↓
 ApiService.getAllCourses()
     ↓
-HTTP GET /api/live_courses
+HTTP GET /api/v1/live_courses
     ↓
 Parse JSON to List<LiveCourse>
     ↓

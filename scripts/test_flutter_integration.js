@@ -65,7 +65,7 @@ async function main() {
 
     // Test 3: Live Courses
     console.log('\n3️⃣ Testing Live Courses API...');
-    const courses = await makeRequest(`${baseUrl}/api/live_courses`);
+    const courses = await makeRequest(`${baseUrl}/api/v1/live_courses`);
     if (courses.statusCode === 200 && courses.data.success && Array.isArray(courses.data.data)) {
       console.log('✅ Live courses API working');
       console.log(`   Found ${courses.data.data.length} courses`);
@@ -84,7 +84,7 @@ async function main() {
 
     // Test 4: Course Categories
     console.log('\n4️⃣ Testing Course Categories...');
-    const categoryResponse = await makeRequest(`${baseUrl}/api/live_courses/category/beauty`);
+    const categoryResponse = await makeRequest(`${baseUrl}/api/v1/live_courses/category/beauty`);
     if (categoryResponse.statusCode === 200) {
       console.log('✅ Course categories working');
       console.log(`   Beauty courses: ${Array.isArray(categoryResponse.data) ? categoryResponse.data.length : 'Available'}`);
@@ -95,7 +95,7 @@ async function main() {
 
     // Test 5: Recordings
     console.log('\n5️⃣ Testing Recordings API...');
-    const recordings = await makeRequest(`${baseUrl}/api/recordings`);
+    const recordings = await makeRequest(`${baseUrl}/api/v1/recordings`);
     if (recordings.statusCode === 200 && recordings.data.success && Array.isArray(recordings.data.recordings)) {
       console.log('✅ Recordings API working');
       console.log(`   Found ${recordings.data.recordings.length} recordings`);
@@ -110,7 +110,7 @@ async function main() {
     // Test 6: Meeting API
     console.log('\n6️⃣ Testing Meeting Creation...');
     // We'll just test if the endpoint exists by trying with empty data
-    const meetingTest = await makeRequest(`${baseUrl}/api/meeting/test-meeting-code`);
+    const meetingTest = await makeRequest(`${baseUrl}/api/v1/meeting/test-meeting-code`);
     if (meetingTest.statusCode === 404) {
       console.log('✅ Meeting API endpoint exists');
       console.log('   Meeting endpoints are available for integration');

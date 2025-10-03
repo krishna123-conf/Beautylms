@@ -132,13 +132,13 @@ dev_dependencies:
 
 ### Backend Endpoints Used
 ```
-GET  /health                              # Health check
-GET  /api/live_courses                    # List courses
-GET  /api/live_courses/:id                # Get course
-POST /api/live_courses/:id/start          # Start course
-POST /api/live_courses/:id/complete       # Complete course
-POST /api/meetings/join                   # Join meeting
-GET  /api/meetings/:code/participants     # Get participants
+GET  /health                                  # Health check
+GET  /api/v1/live_courses                     # List courses
+GET  /api/v1/live_courses/:id                 # Get course
+POST /api/v1/live_courses/:id/start           # Start course
+POST /api/v1/live_courses/:id/complete        # Complete course
+POST /api/v1/meetings/join                    # Join meeting
+GET  /api/v1/meetings/:code/participants      # Get participants
 ```
 
 ### Socket.IO Events

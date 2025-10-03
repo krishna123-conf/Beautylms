@@ -72,34 +72,34 @@ app.get('/api', (req, res) => {
                 'GET /api/docs': 'Detailed API documentation'
             },
             'Live Courses': {
-                'GET /api/live_courses': 'Get all live courses',
-                'POST /api/live_courses': 'Create a new live course',
-                'GET /api/live_courses/:id': 'Get specific live course',
-                'GET /api/live_courses/category/:category': 'Get courses by category',
-                'GET /api/live_courses/instructor/:instructorId': 'Get courses by instructor',
-                'GET /api/live_courses/status/:status': 'Get courses by status',
-                'GET /api/live_courses/:id/users': 'Get enrolled users for a course',
-                'GET /api/live_courses/:id/users/join': 'Get joined users for a course',
-                'POST /api/live_courses/schedule': 'Schedule live courses',
-                'PUT /api/live_courses/:id/start': 'Start a live course with video conferencing and recording',
-                'PUT /api/live_courses/:id/complete': 'Complete a live course and stop recording',
-                'PUT /api/live_courses/:id/join': 'Join a user to a live course',
-                'PUT /api/live_courses/:id/leave': 'Leave a live course',
-                'GET /api/live_courses/:id/recording': 'Get recording status for a course'
+                'GET /api/v1/live_courses': 'Get all live courses',
+                'POST /api/v1/live_courses': 'Create a new live course',
+                'GET /api/v1/live_courses/:id': 'Get specific live course',
+                'GET /api/v1/live_courses/category/:category': 'Get courses by category',
+                'GET /api/v1/live_courses/instructor/:instructorId': 'Get courses by instructor',
+                'GET /api/v1/live_courses/status/:status': 'Get courses by status',
+                'GET /api/v1/live_courses/:id/users': 'Get enrolled users for a course',
+                'GET /api/v1/live_courses/:id/users/join': 'Get joined users for a course',
+                'POST /api/v1/live_courses/schedule': 'Schedule live courses',
+                'PUT /api/v1/live_courses/:id/start': 'Start a live course with video conferencing and recording',
+                'PUT /api/v1/live_courses/:id/complete': 'Complete a live course and stop recording',
+                'PUT /api/v1/live_courses/:id/join': 'Join a user to a live course',
+                'PUT /api/v1/live_courses/:id/leave': 'Leave a live course',
+                'GET /api/v1/live_courses/:id/recording': 'Get recording status for a course'
             },
             'Recording Management': {
-                'POST /api/courses/:courseId/recording/start': 'Start recording for a course',
-                'POST /api/courses/:courseId/recording/stop': 'Stop recording for a course',
-                'GET /api/courses/:courseId/recording/status': 'Get recording status',
-                'GET /api/courses/:courseId/recording': 'Get completed recording info',
-                'GET /api/recordings': 'List all recordings',
-                'DELETE /api/recordings/:fileName': 'Delete a recording',
-                'POST /api/recordings/cleanup': 'Cleanup old recordings'
+                'POST /api/v1/courses/:courseId/recording/start': 'Start recording for a course',
+                'POST /api/v1/courses/:courseId/recording/stop': 'Stop recording for a course',
+                'GET /api/v1/courses/:courseId/recording/status': 'Get recording status',
+                'GET /api/v1/courses/:courseId/recording': 'Get completed recording info',
+                'GET /api/v1/recordings': 'List all recordings',
+                'DELETE /api/v1/recordings/:fileName': 'Delete a recording',
+                'POST /api/v1/recordings/cleanup': 'Cleanup old recordings'
             },
             'User Management': {
-                'GET /api/users': 'Get all users',
-                'GET /api/users/:id': 'Get user by ID',
-                'GET /api/users/role/:role': 'Get users by role'
+                'GET /api/v1/users': 'Get all users',
+                'GET /api/v1/users/:id': 'Get user by ID',
+                'GET /api/v1/users/role/:role': 'Get users by role'
             }
         },
         features: [
@@ -184,7 +184,7 @@ app.get('/api/docs', (req, res) => {
                     }
                 }
             },
-            '/api/live_courses': {
+            '/api/v1/live_courses': {
                 get: {
                     summary: 'Get All Live Courses',
                     description: 'Retrieve all live courses from the database',
@@ -224,7 +224,7 @@ app.get('/api/docs', (req, res) => {
                     }
                 }
             },
-            '/api/live_courses/{id}/start': {
+            '/api/v1/live_courses/{id}/start': {
                 put: {
                     summary: 'Start Live Course',
                     description: 'Start a live course, create meeting room, and begin recording if enabled',
@@ -286,7 +286,7 @@ app.get('/api/docs', (req, res) => {
                     }
                 }
             },
-            '/api/courses/{courseId}/recording/start': {
+            '/api/v1/courses/{courseId}/recording/start': {
                 post: {
                     summary: 'Start Recording',
                     description: 'Start recording for a course',
@@ -402,7 +402,7 @@ const recordingManager = require('./utils/recordingManager');
 
 // Recording API Routes
 // Start recording
-app.post('/api/courses/:courseId/recording/start', async (req, res) => {
+app.post('/api/v1/courses/:courseId/recording/start', async (req, res) => {
     const { courseId } = req.params;
     const { courseData, mediaOptions } = req.body;
     
@@ -415,7 +415,7 @@ app.post('/api/courses/:courseId/recording/start', async (req, res) => {
 });
 
 // Stop recording
-app.post('/api/courses/:courseId/recording/stop', async (req, res) => {
+app.post('/api/v1/courses/:courseId/recording/stop', async (req, res) => {
     const { courseId } = req.params;
     
     try {
@@ -427,14 +427,14 @@ app.post('/api/courses/:courseId/recording/stop', async (req, res) => {
 });
 
 // Get recording status
-app.get('/api/courses/:courseId/recording/status', (req, res) => {
+app.get('/api/v1/courses/:courseId/recording/status', (req, res) => {
     const { courseId } = req.params;
     const status = recordingManager.getRecordingStatus(courseId);
     res.json(status);
 });
 
 // Get recording URL for a specific course
-app.get('/api/courses/:courseId/recording', async (req, res) => {
+app.get('/api/v1/courses/:courseId/recording', async (req, res) => {
     const { courseId } = req.params;
     
     try {
@@ -466,7 +466,7 @@ app.get('/api/courses/:courseId/recording', async (req, res) => {
 });
 
 // List all recordings
-app.get('/api/recordings', async (req, res) => {
+app.get('/api/v1/recordings', async (req, res) => {
     const { directory = 'completed' } = req.query;
     
     try {
@@ -484,7 +484,7 @@ app.get('/api/recordings', async (req, res) => {
 });
 
 // Delete recording
-app.delete('/api/recordings/:fileName', async (req, res) => {
+app.delete('/api/v1/recordings/:fileName', async (req, res) => {
     const { fileName } = req.params;
     const { directory = 'completed' } = req.query;
     
@@ -497,7 +497,7 @@ app.delete('/api/recordings/:fileName', async (req, res) => {
 });
 
 // Cleanup old recordings
-app.post('/api/recordings/cleanup', async (req, res) => {
+app.post('/api/v1/recordings/cleanup', async (req, res) => {
     const { maxAgeDays = 30 } = req.body;
     
     try {
@@ -513,8 +513,8 @@ app.post('/api/recordings/cleanup', async (req, res) => {
 });
 
 // API Routes
-app.use('/api/users', userRoutes);
-app.use('/api/live_courses', courseRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/live_courses', courseRoutes);
 
 // Socket.IO connection handling
 handleSocketConnection(io);
