@@ -2,11 +2,18 @@
 
 A comprehensive Learning Management System with integrated video conferencing, real-time chat, and course management capabilities. Built with a modern tech stack supporting both React (web) and Flutter (cross-platform) frontends.
 
+## 🚀 Production Ready for 1000-1500 Concurrent Users
+
+This repository includes **complete production deployment documentation** for Hostinger VPS (Ubuntu), optimized for handling **1000-1500 concurrent users** in live video courses.
+
+📖 **[Complete Deployment Guide](HOSTINGER_VPS_DEPLOYMENT.md)** - Start here for production deployment
+📋 **[Deployment Summary](DEPLOYMENT_SUMMARY.md)** - Overview of all documentation
+
 ## 🎯 Overview
 
 Beauty LMS provides a complete solution for online education with live video courses, real-time interaction, and comprehensive course management. The system includes:
 
-- **Backend**: Node.js + Express + Socket.IO + MediaSoup
+- **Backend**: Node.js + Express + Socket.IO + MediaSoup (Production-optimized)
 - **Frontend Options**:
   - **React**: Web-based interface (TypeScript)
   - **Flutter**: Cross-platform (Mobile, Web, Desktop)
@@ -164,6 +171,15 @@ See [FLUTTER_IMPLEMENTATION.md](FLUTTER_IMPLEMENTATION.md) for detailed comparis
 
 ## 📚 Documentation
 
+### Production Deployment (70k+ characters)
+- 🚀 **[DEPLOYMENT_SUMMARY.md](DEPLOYMENT_SUMMARY.md)**: Complete deployment overview
+- 📖 **[HOSTINGER_VPS_DEPLOYMENT.md](HOSTINGER_VPS_DEPLOYMENT.md)**: Step-by-step deployment guide (26k)
+- ✅ **[PRODUCTION_READINESS_CHECKLIST.md](PRODUCTION_READINESS_CHECKLIST.md)**: Pre-launch checklist (11k)
+- 📊 **[MONITORING_GUIDE.md](MONITORING_GUIDE.md)**: Monitoring and troubleshooting (16k)
+- 🔒 **[SECURITY_GUIDE.md](SECURITY_GUIDE.md)**: Security hardening guide (18k)
+- ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)**: Quick command reference (10k)
+
+### Application Documentation
 - **[FLUTTER_IMPLEMENTATION.md](FLUTTER_IMPLEMENTATION.md)**: React vs Flutter comparison
 - **[Flutter README](flutter_frontend/README.md)**: Flutter setup and usage
 - **[Flutter QUICKSTART](flutter_frontend/QUICKSTART.md)**: 5-minute setup guide
