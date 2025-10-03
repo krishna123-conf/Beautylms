@@ -87,7 +87,7 @@ For security, don't run the application as root:
 
 ```bash
 # Create a dedicated user for the application
-# Using --gecos "," to skip prompts for user information (Full Name, Room Number, etc.)
+# Using --gecos (or --comment on newer systems) to skip prompts for user information
 sudo adduser beautylms --disabled-password --gecos ","
 
 # Add user to sudo group (optional, for administrative tasks)
@@ -849,10 +849,13 @@ ENABLE_REDIS_ADAPTER=true
 ```bash
 # If you get an error with the adduser command, try these alternatives:
 
-# Method 1: Using adduser with proper GECOS format (recommended)
+# Method 1: Using adduser with proper GECOS/comment format (recommended)
 sudo adduser beautylms --disabled-password --gecos ","
 
-# Method 2: If adduser is not available, use useradd
+# Method 2: For newer Debian/Ubuntu systems (Debian 13+, Ubuntu 24.04+)
+sudo adduser beautylms --disabled-password --comment ","
+
+# Method 3: If adduser is not available, use useradd
 sudo useradd -r -s /bin/bash -d /home/beautylms -m beautylms
 # Then set up the home directory
 sudo mkdir -p /home/beautylms
@@ -867,7 +870,7 @@ sudo usermod -aG sudo beautylms  # Add to sudo group
 sudo chsh -s /bin/bash beautylms  # Set shell to bash
 ```
 
-**Note:** The `--gecos ","` parameter skips the interactive prompts for user information (Full Name, Room Number, Work Phone, Home Phone, Other). The comma represents empty values for all GECOS fields.
+**Note:** The `--gecos ","` (or `--comment ","` on newer systems) parameter skips the interactive prompts for user information (Full Name, Room Number, Work Phone, Home Phone, Other). The comma represents empty values for all GECOS fields. The `--gecos` option works on all current systems but is deprecated in favor of `--comment` on Debian 13+ and Ubuntu 24.04+.
 
 #### 1. Application Won't Start
 

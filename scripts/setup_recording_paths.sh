@@ -50,8 +50,11 @@ create_user() {
         log "Creating user: $USER"
         # Use adduser for better compatibility and to match deployment documentation
         # --system creates a system user, --group creates a group with the same name
-        # --disabled-password disables password login, --gecos "," skips user info prompts
+        # --disabled-password disables password login
+        # Try --comment first (newer systems), fallback to --gecos, then useradd
         adduser --system --group --home "/home/$USER" --shell /bin/bash \
+                --disabled-password --comment "," "$USER" 2>/dev/null || \
+            adduser --system --group --home "/home/$USER" --shell /bin/bash \
                 --disabled-password --gecos "," "$USER" 2>/dev/null || \
             useradd -r -s /bin/bash -d "/home/$USER" -m "$USER"
         success "User $USER created"
