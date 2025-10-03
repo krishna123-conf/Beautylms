@@ -63,7 +63,7 @@ async function testHealthCheck() {
 async function testStartRecording() {
     info('Testing start recording...');
     try {
-        const response = await axios.post(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/start`, {
+        const response = await axios.post(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/start`, {
             courseData: {
                 name: 'Test Course',
                 recordingEnabled: true
@@ -95,7 +95,7 @@ async function testStartRecording() {
 async function testRecordingStatus() {
     info('Testing recording status...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/status`);
+        const response = await axios.get(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/status`);
         
         if (response.data.success) {
             success('Recording status retrieved');
@@ -121,7 +121,7 @@ async function testStopRecording() {
         // Wait a bit before stopping
         await new Promise(resolve => setTimeout(resolve, 2000));
         
-        const response = await axios.post(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/stop`);
+        const response = await axios.post(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/stop`);
         
         if (response.data.success) {
             success('Recording stopped successfully');
@@ -146,7 +146,7 @@ async function testStopRecording() {
 async function testListRecordings() {
     info('Testing list recordings...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/recordings`);
+        const response = await axios.get(`${BASE_URL}/api/v1/recordings`);
         
         if (response.data.success) {
             success(`Found ${response.data.recordings.length} recordings`);
@@ -169,7 +169,7 @@ async function testListRecordings() {
 async function testGetRecordingByCourse() {
     info('Testing get recording by course...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording`);
+        const response = await axios.get(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording`);
         
         if (response.status === 200 && response.data.success) {
             success('Recording found for course');
@@ -197,7 +197,7 @@ async function testGetRecordingByCourse() {
 async function testCleanupOldRecordings() {
     info('Testing cleanup old recordings...');
     try {
-        const response = await axios.post(`${BASE_URL}/api/recordings/cleanup`, {
+        const response = await axios.post(`${BASE_URL}/api/v1/recordings/cleanup`, {
             maxAgeDays: 30
         });
         

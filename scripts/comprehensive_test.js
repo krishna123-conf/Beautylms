@@ -102,7 +102,7 @@ async function testAPIDocumentation() {
 async function testGetAllCourses() {
     info('Testing get all live courses...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/live_courses`);
+        const response = await axios.get(`${BASE_URL}/api/v1/live_courses`);
         if (response.status === 200) {
             success(`Found ${response.data.length || 0} courses`);
             if (response.data.length > 0) {
@@ -122,7 +122,7 @@ async function testGetAllCourses() {
 async function testGetCourseById() {
     info(`Testing get course by ID (${TEST_COURSE_ID})...`);
     try {
-        const response = await axios.get(`${BASE_URL}/api/live_courses/${TEST_COURSE_ID}`);
+        const response = await axios.get(`${BASE_URL}/api/v1/live_courses/${TEST_COURSE_ID}`);
         if (response.status === 200) {
             success('Course retrieved successfully');
             log(`   Course name: ${response.data.name}`);
@@ -146,7 +146,7 @@ async function testGetCourseById() {
 async function testCoursesByCategory() {
     info('Testing get courses by category...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/live_courses/category/beauty`);
+        const response = await axios.get(`${BASE_URL}/api/v1/live_courses/category/beauty`);
         if (response.status === 200) {
             success(`Found ${response.data.length || 0} beauty courses`);
             return true;
@@ -163,7 +163,7 @@ async function testCoursesByCategory() {
 async function testCoursesByInstructor() {
     info(`Testing get courses by instructor (${TEST_INSTRUCTOR_ID})...`);
     try {
-        const response = await axios.get(`${BASE_URL}/api/live_courses/instructor/${TEST_INSTRUCTOR_ID}`);
+        const response = await axios.get(`${BASE_URL}/api/v1/live_courses/instructor/${TEST_INSTRUCTOR_ID}`);
         if (response.status === 200) {
             success(`Found ${response.data.length || 0} courses for instructor`);
             return true;
@@ -180,7 +180,7 @@ async function testCoursesByInstructor() {
 async function testCoursesByStatus() {
     info('Testing get courses by status...');
     try {
-        const response = await axios.get(`${BASE_URL}/api/live_courses/status/scheduled`);
+        const response = await axios.get(`${BASE_URL}/api/v1/live_courses/status/scheduled`);
         if (response.status === 200) {
             success(`Found ${response.data.length || 0} scheduled courses`);
             return true;
@@ -201,7 +201,7 @@ async function testCoursesByStatus() {
 async function testStartCourse() {
     info(`Testing start course (${TEST_COURSE_ID})...`);
     try {
-        const response = await axios.put(`${BASE_URL}/api/live_courses/${TEST_COURSE_ID}/start`);
+        const response = await axios.put(`${BASE_URL}/api/v1/live_courses/${TEST_COURSE_ID}/start`);
         if (response.data.success) {
             success('Course started successfully');
             log(`   Meeting Code: ${response.data.meetingCode || 'N/A'}`);
@@ -224,7 +224,7 @@ async function testStartCourse() {
 async function testJoinCourse() {
     info(`Testing join course (${TEST_COURSE_ID})...`);
     try {
-        const response = await axios.put(`${BASE_URL}/api/live_courses/${TEST_COURSE_ID}/join`, {
+        const response = await axios.put(`${BASE_URL}/api/v1/live_courses/${TEST_COURSE_ID}/join`, {
             userId: TEST_USER_ID,
             userRole: 'student'
         });
@@ -248,7 +248,7 @@ async function testJoinCourse() {
 async function testLeaveCourse() {
     info(`Testing leave course (${TEST_COURSE_ID})...`);
     try {
-        const response = await axios.put(`${BASE_URL}/api/live_courses/${TEST_COURSE_ID}/leave`, {
+        const response = await axios.put(`${BASE_URL}/api/v1/live_courses/${TEST_COURSE_ID}/leave`, {
             userId: TEST_USER_ID
         });
         if (response.data.success) {
@@ -271,7 +271,7 @@ async function testLeaveCourse() {
 async function testCompleteCourse() {
     info(`Testing complete course (${TEST_COURSE_ID})...`);
     try {
-        const response = await axios.put(`${BASE_URL}/api/live_courses/${TEST_COURSE_ID}/complete`);
+        const response = await axios.put(`${BASE_URL}/api/v1/live_courses/${TEST_COURSE_ID}/complete`);
         if (response.data.success) {
             success('Course completed successfully');
             return true;
@@ -300,7 +300,7 @@ async function testRecordingWorkflow() {
     try {
         // Start recording
         info('  1. Starting recording...');
-        const startResponse = await axios.post(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/start`, {
+        const startResponse = await axios.post(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/start`, {
             courseData: {
                 name: 'Test Recording Course',
                 recordingEnabled: true
@@ -324,7 +324,7 @@ async function testRecordingWorkflow() {
         
         // Check status
         info('  2. Checking recording status...');
-        const statusResponse = await axios.get(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/status`);
+        const statusResponse = await axios.get(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/status`);
         
         if (statusResponse.data.success && statusResponse.data.recording) {
             success('  Recording is active');
@@ -335,7 +335,7 @@ async function testRecordingWorkflow() {
         
         // Stop recording
         info('  3. Stopping recording...');
-        const stopResponse = await axios.post(`${BASE_URL}/api/courses/${TEST_COURSE_ID}/recording/stop`);
+        const stopResponse = await axios.post(`${BASE_URL}/api/v1/courses/${TEST_COURSE_ID}/recording/stop`);
         
         if (stopResponse.data.success) {
             success('  Recording stopped');
@@ -361,7 +361,7 @@ async function testRecordingEndpoints() {
     
     try {
         // List recordings
-        const listResponse = await axios.get(`${BASE_URL}/api/recordings`);
+        const listResponse = await axios.get(`${BASE_URL}/api/v1/recordings`);
         if (listResponse.data.success) {
             success(`Found ${listResponse.data.recordings.length} recordings`);
         } else {
@@ -370,7 +370,7 @@ async function testRecordingEndpoints() {
         }
         
         // Test cleanup
-        const cleanupResponse = await axios.post(`${BASE_URL}/api/recordings/cleanup`, {
+        const cleanupResponse = await axios.post(`${BASE_URL}/api/v1/recordings/cleanup`, {
             maxAgeDays: 1
         });
         if (cleanupResponse.data.success) {
@@ -396,7 +396,7 @@ async function testUserEndpoints() {
     info('Testing user management endpoints...');
     try {
         // This is a placeholder - the actual implementation would depend on user routes
-        const response = await axios.get(`${BASE_URL}/api/users`);
+        const response = await axios.get(`${BASE_URL}/api/v1/users`);
         success('User endpoints accessible');
         return true;
     } catch (err) {
@@ -417,7 +417,7 @@ async function testMeetingEndpoints() {
     info('Testing meeting/WebRTC endpoints...');
     try {
         // This would test meeting creation, joining, etc.
-        const response = await axios.get(`${BASE_URL}/api/meeting`);
+        const response = await axios.get(`${BASE_URL}/api/v1/meeting`);
         success('Meeting endpoints accessible');
         return true;
     } catch (err) {
@@ -440,7 +440,7 @@ async function testErrorHandling() {
     
     try {
         // Test 404 for non-existent endpoint
-        await axios.get(`${BASE_URL}/api/nonexistent`);
+        await axios.get(`${BASE_URL}/api/v1/nonexistent`);
         error('Should have received 404 for non-existent endpoint');
         allPassed = false;
     } catch (err) {
@@ -454,7 +454,7 @@ async function testErrorHandling() {
     
     try {
         // Test 404 for non-existent course
-        await axios.get(`${BASE_URL}/api/live_courses/nonexistent-course-id`);
+        await axios.get(`${BASE_URL}/api/v1/live_courses/nonexistent-course-id`);
         error('Should have received 404 for non-existent course');
         allPassed = false;
     } catch (err) {

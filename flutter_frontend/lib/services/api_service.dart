@@ -18,7 +18,7 @@ class ApiResponse<T> {
 }
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static const String baseUrl = 'http://localhost:3000/api/v1';
   static const Duration timeout = Duration(seconds: 10);
 
   // Health check
