@@ -87,7 +87,8 @@ For security, don't run the application as root:
 
 ```bash
 # Create a dedicated user for the application
-sudo adduser beautylms --disabled-password --gecos ""
+# Using --gecos "," to skip prompts for user information (Full Name, Room Number, etc.)
+sudo adduser beautylms --disabled-password --gecos ","
 
 # Add user to sudo group (optional, for administrative tasks)
 sudo usermod -aG sudo beautylms
@@ -838,6 +839,35 @@ ENABLE_REDIS_ADAPTER=true
 ## Troubleshooting
 
 ### Common Issues and Solutions
+
+#### 0. User Creation Issues
+
+**Symptoms:** Error when creating the beautylms user during initial setup
+
+**Solutions:**
+
+```bash
+# If you get an error with the adduser command, try these alternatives:
+
+# Method 1: Using adduser with proper GECOS format (recommended)
+sudo adduser beautylms --disabled-password --gecos ","
+
+# Method 2: If adduser is not available, use useradd
+sudo useradd -r -s /bin/bash -d /home/beautylms -m beautylms
+# Then set up the home directory
+sudo mkdir -p /home/beautylms
+sudo chown beautylms:beautylms /home/beautylms
+
+# Verify user was created successfully
+id beautylms
+# Should show: uid, gid, and groups
+
+# If user already exists and you need to modify it
+sudo usermod -aG sudo beautylms  # Add to sudo group
+sudo chsh -s /bin/bash beautylms  # Set shell to bash
+```
+
+**Note:** The `--gecos ","` parameter skips the interactive prompts for user information (Full Name, Room Number, Work Phone, Home Phone, Other). The comma represents empty values for all GECOS fields.
 
 #### 1. Application Won't Start
 
