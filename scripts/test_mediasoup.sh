@@ -33,10 +33,10 @@ echo "================================================"
 echo ""
 
 # Load environment variables
-if [ -f "/home/beautylms/Beautylms/backend/.env.production" ]; then
+if [ -f "/home/beauty/Beautylms/backend/.env.production" ]; then
     log_info "Loading production environment..."
     set -a
-    source /home/beautylms/Beautylms/backend/.env.production
+    source /home/beauty/Beautylms/backend/.env.production
     set +a
 else
     log_warning "Production environment file not found, using defaults"
@@ -160,13 +160,13 @@ echo ""
 # Test 5: Application Status
 log_info "Test 5: Checking application status..."
 if command -v pm2 >/dev/null 2>&1; then
-    APP_STATUS=$(sudo -u beautylms pm2 list 2>/dev/null | grep beauty-lms-backend || echo "not found")
+    APP_STATUS=$(sudo -u beauty pm2 list 2>/dev/null | grep beauty-lms-backend || echo "not found")
     if echo "$APP_STATUS" | grep -q "online"; then
         log_success "Beauty LMS application is running"
         
         # Test MediaSoup initialization
         log_info "Checking MediaSoup worker logs..."
-        LOGS=$(sudo -u beautylms pm2 logs beauty-lms-backend --lines 20 --nostream 2>/dev/null | grep -i mediasoup || echo "No MediaSoup logs found")
+        LOGS=$(sudo -u beauty pm2 logs beauty-lms-backend --lines 20 --nostream 2>/dev/null | grep -i mediasoup || echo "No MediaSoup logs found")
         
         if echo "$LOGS" | grep -q "workers created"; then
             log_success "MediaSoup workers appear to be initialized"

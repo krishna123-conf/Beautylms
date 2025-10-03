@@ -88,13 +88,13 @@ For security, don't run the application as root:
 
 ```bash
 # Create a dedicated user for the application
-sudo adduser beautylms --disabled-password --gecos ""
+sudo adduser beauty --disabled-password --gecos ""
 
 # Add user to sudo group (optional, for administrative tasks)
-sudo usermod -aG sudo beautylms
+sudo usermod -aG sudo beauty
 
 # Switch to the new user
-sudo su - beautylms
+sudo su - beauty
 ```
 
 ### Step 4: Setup Directory Structure
@@ -144,8 +144,8 @@ ffmpeg -version
 sudo npm install -g pm2
 
 # Setup PM2 startup script
-pm2 startup systemd -u beautylms --hp /home/beautylms
-sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u beautylms --hp /home/beautylms
+pm2 startup systemd -u beauty --hp /home/beauty
+sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u beauty --hp /home/beauty
 ```
 
 ### Step 4: Install Nginx (Web Server)
@@ -509,7 +509,7 @@ pm2 start ecosystem.config.js --env production --dry-run
 ```bash
 # Upload your Firebase service account key to the server
 # Option 1: Use SCP from your local machine
-# scp serviceAccountKey.json beautylms@your-server-ip:~/.credentials/
+# scp serviceAccountKey.json beauty@your-server-ip:~/.credentials/
 
 # Option 2: Use nano to paste the content
 nano ~/.credentials/serviceAccountKey.json
@@ -550,7 +550,7 @@ PORT=3000
 
 # Firebase - Update with your project ID
 FIREBASE_PROJECT_ID=your-firebase-project-id
-GOOGLE_APPLICATION_CREDENTIALS=/home/beautylms/.credentials/serviceAccountKey.json
+GOOGLE_APPLICATION_CREDENTIALS=/home/beauty/.credentials/serviceAccountKey.json
 
 # MediaSoup - CRITICAL FOR VIDEO CONFERENCING
 MEDIASOUP_LISTEN_IP=0.0.0.0
@@ -567,7 +567,7 @@ JWT_SECRET=$(openssl rand -base64 64)
 
 # Recording Configuration
 RECORDING_ENABLED=true
-RECORDINGS_PATH=/home/beautylms/Beautylms/recordings
+RECORDINGS_PATH=/home/beauty/Beautylms/recordings
 RECORDING_BASE_URL=https://yourdomain.com
 RECORDING_SECRET=$(openssl rand -base64 32)
 ```
@@ -750,7 +750,7 @@ uptime
 
 echo ""
 echo "4. Disk Usage:"
-df -h /home/beautylms/Beautylms
+df -h /home/beauty/Beautylms
 
 echo ""
 echo "5. Active Connections:"
@@ -789,10 +789,10 @@ sudo nano /etc/security/limits.conf
 
 Add these lines:
 ```
-beautylms soft nofile 65535
-beautylms hard nofile 65535
-beautylms soft nproc 4096
-beautylms hard nproc 4096
+beauty soft nofile 65535
+beauty hard nofile 65535
+beauty soft nproc 4096
+beauty hard nproc 4096
 ```
 
 ### 2. Kernel Network Tuning
@@ -905,7 +905,7 @@ For systems with many recordings:
 crontab -e
 
 # Add this line to run cleanup daily at 2 AM
-0 2 * * * cd /home/beautylms/Beautylms/backend && node -e "require('./utils/recordingManager').cleanupOldRecordings(30)"
+0 2 * * * cd /home/beauty/Beautylms/backend && node -e "require('./utils/recordingManager').cleanupOldRecordings(30)"
 ```
 
 ### 7. Caching Strategy
@@ -1056,7 +1056,7 @@ grep -E "FIREBASE_PROJECT_ID|MEDIASOUP_ANNOUNCED_IP" .env.production
 
 # D. Permission issues
 ls -la ~/.credentials/
-# Should show serviceAccountKey.json owned by beautylms
+# Should show serviceAccountKey.json owned by beauty
 ```
 
 #### 2. Video Connection Fails
@@ -1232,7 +1232,7 @@ free -h
 - [ ] Firewall (UFW) is enabled and properly configured
 - [ ] SSH is secured (disable password auth, use keys only)
 - [ ] SSL certificate is valid and auto-renews
-- [ ] Application runs as non-root user (beautylms)
+- [ ] Application runs as non-root user (beauty)
 - [ ] Firebase credentials are secured (600 permissions)
 - [ ] Environment variables contain strong secrets
 - [ ] Regular security updates applied
@@ -1257,7 +1257,7 @@ Add:
 ```bash
 #!/bin/bash
 
-BACKUP_DIR="/home/beautylms/backups"
+BACKUP_DIR="/home/beauty/backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 
 # Create backup directory
@@ -1287,7 +1287,7 @@ chmod +x ~/backup-beauty-lms.sh
 
 # Schedule daily backups at 3 AM
 crontab -e
-# Add: 0 3 * * * /home/beautylms/backup-beauty-lms.sh >> /home/beautylms/backup.log 2>&1
+# Add: 0 3 * * * /home/beauty/backup-beauty-lms.sh >> /home/beauty/backup.log 2>&1
 ```
 
 ---

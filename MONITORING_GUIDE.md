@@ -68,13 +68,13 @@ Use the included monitoring script:
 
 ```bash
 # Run once
-/home/beautylms/monitor-performance.sh
+/home/beauty/monitor-performance.sh
 
 # Run every 30 seconds
-watch -n 30 /home/beautylms/monitor-performance.sh
+watch -n 30 /home/beauty/monitor-performance.sh
 
 # Log to file
-watch -n 60 '/home/beautylms/monitor-performance.sh >> /home/beautylms/performance.log'
+watch -n 60 '/home/beauty/monitor-performance.sh >> /home/beauty/performance.log'
 ```
 
 ---
@@ -189,7 +189,7 @@ chmod +x ~/alert-check.sh
 
 # Run every 5 minutes
 crontab -e
-# Add: */5 * * * * /home/beautylms/alert-check.sh
+# Add: */5 * * * * /home/beauty/alert-check.sh
 ```
 
 ### Setup Uptime Monitoring

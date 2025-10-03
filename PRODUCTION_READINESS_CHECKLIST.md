@@ -50,7 +50,7 @@ Complete checklist to ensure your Beauty LMS deployment is ready for **1000-1500
 - [ ] `RECORDING_SECRET` generated and set
 
 ### File Permissions
-- [ ] Application owned by `beautylms` user
+- [ ] Application owned by `beauty` user
 - [ ] Firebase credentials file has 600 permissions
 - [ ] Logs directory exists and is writable
 - [ ] Recordings directory exists and is writable
@@ -368,9 +368,9 @@ Based on your configuration:
 
 ## 📞 Support Resources
 
-- **Documentation**: `/home/beautylms/Beautylms/HOSTINGER_VPS_DEPLOYMENT.md`
-- **Monitor Script**: `/home/beautylms/monitor-performance.sh`
-- **Logs Location**: `/home/beautylms/Beautylms/logs/`
+- **Documentation**: `/home/beauty/Beautylms/HOSTINGER_VPS_DEPLOYMENT.md`
+- **Monitor Script**: `/home/beauty/monitor-performance.sh`
+- **Logs Location**: `/home/beauty/Beautylms/logs/`
 - **PM2 Logs**: `pm2 logs beauty-lms-backend`
 - **Nginx Logs**: `/var/log/nginx/beauty-lms-*.log`
 

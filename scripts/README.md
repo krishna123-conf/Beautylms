@@ -16,7 +16,7 @@ Collection of deployment, testing, and maintenance scripts for Beauty LMS.
 - Runs health checks
 
 **Prerequisites**:
-- Must be run as `beautylms` user
+- Must be run as `beauty` user
 - Must be in Beautylms root directory
 - All dependencies must be installed
 
@@ -187,7 +187,7 @@ Collection of deployment, testing, and maintenance scripts for Beauty LMS.
 sudo ./scripts/optimize_for_production.sh
 sudo reboot
 
-# 2. After reboot, deploy application (as beautylms)
+# 2. After reboot, deploy application (as beauty)
 cd ~/Beautylms
 ./scripts/production_deploy.sh
 
@@ -229,7 +229,7 @@ node scripts/system_validation.js
 
 ### Production Scripts
 - Root/sudo access (for optimize_for_production.sh)
-- beautylms user (for production_deploy.sh)
+- beauty user (for production_deploy.sh)
 
 ### Testing Scripts
 - Node.js v18+
@@ -241,9 +241,9 @@ node scripts/system_validation.js
 
 ### Initial Setup
 1. `optimize_for_production.sh` (as root) → Reboot
-2. `setup_firebase.sh` (as beautylms)
-3. `setup_recording_paths.sh` (as beautylms)
-4. `production_deploy.sh` (as beautylms)
+2. `setup_firebase.sh` (as beauty)
+3. `setup_recording_paths.sh` (as beauty)
+4. `production_deploy.sh` (as beauty)
 5. `verify_deployment.sh` (to validate)
 
 ### Regular Testing
@@ -258,7 +258,7 @@ node scripts/system_validation.js
 
 ## 🔒 Security Notes
 
-- **production_deploy.sh**: Must be run as beautylms user (not root)
+- **production_deploy.sh**: Must be run as beauty user (not root)
 - **optimize_for_production.sh**: Must be run as root for system changes
 - **setup_firebase.sh**: Handles sensitive credentials - use caution
 - All scripts log to appropriate locations
@@ -296,7 +296,7 @@ whoami
 sudo ./scripts/optimize_for_production.sh
 
 # For user scripts
-sudo su - beautylms
+sudo su - beauty
 ./scripts/production_deploy.sh
 ```
 

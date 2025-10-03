@@ -58,10 +58,10 @@ log_info "Setting file descriptor limits..."
 cat >> /etc/security/limits.conf << EOF
 
 # Beauty LMS Optimization for High Concurrent Users
-beautylms soft nofile 65535
-beautylms hard nofile 65535
-beautylms soft nproc 4096
-beautylms hard nproc 4096
+beauty soft nofile 65535
+beauty hard nofile 65535
+beauty soft nproc 4096
+beauty hard nproc 4096
 root soft nofile 65535
 root hard nofile 65535
 * soft nofile 65535
@@ -269,14 +269,14 @@ echo "════════════════════════�
 
 log_info "Creating log rotation configuration..."
 cat > /etc/logrotate.d/beauty-lms << EOF
-/home/beautylms/Beautylms/logs/*.log {
+/home/beauty/Beautylms/logs/*.log {
     daily
     rotate 14
     compress
     delaycompress
     notifempty
     missingok
-    create 0640 beautylms beautylms
+    create 0640 beauty beauty
     sharedscripts
     postrotate
         pm2 reloadLogs
@@ -325,7 +325,7 @@ echo "9. Creating Monitoring Scripts"
 echo "═══════════════════════════════════════"
 
 log_info "Creating performance monitoring script..."
-cat > /home/beautylms/monitor-performance.sh << 'SCRIPT'
+cat > /home/beauty/monitor-performance.sh << 'SCRIPT'
 #!/bin/bash
 
 echo "═══════════════════════════════════════════════════════════"
@@ -359,8 +359,8 @@ echo ""
 
 echo "4. Recent Errors (Last 5)"
 echo "-------------------------"
-if [ -f /home/beautylms/Beautylms/logs/backend-error.log ]; then
-    tail -n 5 /home/beautylms/Beautylms/logs/backend-error.log
+if [ -f /home/beauty/Beautylms/logs/backend-error.log ]; then
+    tail -n 5 /home/beauty/Beautylms/logs/backend-error.log
 else
     echo "No error log found"
 fi
@@ -369,9 +369,9 @@ echo ""
 echo "═══════════════════════════════════════════════════════════"
 SCRIPT
 
-chmod +x /home/beautylms/monitor-performance.sh
-chown beautylms:beautylms /home/beautylms/monitor-performance.sh
-log_success "Monitoring script created at /home/beautylms/monitor-performance.sh"
+chmod +x /home/beauty/monitor-performance.sh
+chown beauty:beauty /home/beauty/monitor-performance.sh
+log_success "Monitoring script created at /home/beauty/monitor-performance.sh"
 echo ""
 
 # 10. Summary
@@ -396,7 +396,7 @@ echo ""
 log_warning "IMPORTANT: Please reboot the system for all changes to take effect"
 echo ""
 echo "After reboot, you can:"
-echo "  • Run: /home/beautylms/monitor-performance.sh (to check performance)"
+echo "  • Run: /home/beauty/monitor-performance.sh (to check performance)"
 echo "  • Test limits: ulimit -n (should show 65535)"
 echo "  • Verify sysctl: sysctl net.core.somaxconn (should show 65535)"
 echo ""

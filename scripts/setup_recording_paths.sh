@@ -6,9 +6,9 @@
 set -e  # Exit on any error
 
 # Configuration
-RECORDINGS_DIR="/home/beautylms/Beautylms/recordings"
-USER="beautylms"
-GROUP="beautylms"
+RECORDINGS_DIR="/home/beauty/Beautylms/recordings"
+USER="beauty"
+GROUP="beauty"
 LOG_FILE="/tmp/recording_setup.log"
 
 # Colors for output
@@ -191,7 +191,7 @@ create_test_script() {
 #!/bin/bash
 
 # Test script for recording setup
-RECORDINGS_DIR="/home/beautylms/Beautylms/recordings"
+RECORDINGS_DIR="/home/beauty/Beautylms/recordings"
 
 echo "=== Testing Recording Setup ==="
 

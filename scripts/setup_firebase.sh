@@ -34,19 +34,19 @@ log_error() {
 }
 
 # Default paths
-BACKEND_DIR="/home/beautylms/Beautylms/backend"
-CREDENTIALS_DIR="/home/beautylms/.credentials"
+BACKEND_DIR="/home/beauty/Beautylms/backend"
+CREDENTIALS_DIR="/home/beauty/.credentials"
 SERVICE_ACCOUNT_FILE="$CREDENTIALS_DIR/serviceAccountKey.json"
 ENV_FILE="$BACKEND_DIR/.env.production"
 
-# Check if running as root or beautylms user
+# Check if running as root or beauty user
 if [ "$EUID" -eq 0 ]; then
-    USER_PREFIX="sudo -u beautylms"
-    log_warning "Running as root. Commands will be executed as beautylms user."
+    USER_PREFIX="sudo -u beauty"
+    log_warning "Running as root. Commands will be executed as beauty user."
 else
     USER_PREFIX=""
-    if [ "$USER" != "beautylms" ]; then
-        log_warning "Not running as beautylms user. Some operations may require different permissions."
+    if [ "$USER" != "beauty" ]; then
+        log_warning "Not running as beauty user. Some operations may require different permissions."
     fi
 fi
 
@@ -170,7 +170,7 @@ if [ "$SKIP_PERMISSIONS" != "true" ] && [ -f "$SERVICE_ACCOUNT_FILE" ]; then
     echo ""
     echo "Step 3: Setting proper permissions..."
     
-    $USER_PREFIX chown beautylms:beautylms "$SERVICE_ACCOUNT_FILE" 2>/dev/null || true
+    $USER_PREFIX chown beauty:beauty "$SERVICE_ACCOUNT_FILE" 2>/dev/null || true
     $USER_PREFIX chmod 600 "$SERVICE_ACCOUNT_FILE"
     
     # Verify permissions

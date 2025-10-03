@@ -31,7 +31,7 @@ PasswordAuthentication no
 PermitRootLogin no
 PubkeyAuthentication yes
 Port 2222  # Change from default 22
-AllowUsers beautylms  # Only allow specific user
+AllowUsers beauty  # Only allow specific user
 MaxAuthTries 3
 MaxSessions 2
 ```
@@ -49,7 +49,7 @@ On your local machine:
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
 # Copy to server
-ssh-copy-id beautylms@your-server-ip
+ssh-copy-id beauty@your-server-ip
 ```
 
 Update firewall for new SSH port:
@@ -178,11 +178,11 @@ cat /etc/apt/apt.conf.d/50unattended-upgrades
 ```bash
 # Secure .env.production file
 chmod 600 ~/Beautylms/backend/.env.production
-chown beautylms:beautylms ~/Beautylms/backend/.env.production
+chown beauty:beauty ~/Beautylms/backend/.env.production
 
 # Secure Firebase credentials
 chmod 600 ~/.credentials/serviceAccountKey.json
-chown beautylms:beautylms ~/.credentials/serviceAccountKey.json
+chown beauty:beauty ~/.credentials/serviceAccountKey.json
 ```
 
 **Verify no secrets in code:**
@@ -792,7 +792,7 @@ Make executable and schedule:
 ```bash
 chmod +x ~/security-audit.sh
 crontab -e
-# Add: 0 2 1 * * /home/beautylms/security-audit.sh
+# Add: 0 2 1 * * /home/beauty/security-audit.sh
 ```
 
 ---
