@@ -27,11 +27,21 @@ export class WebRTCService {
   async initializeLocalMedia(): Promise<MediaStream | null> {
     try {
       this.localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          frameRate: { ideal: 30 }
+        },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
       });
       
       console.log('✅ Local media initialized');
+      console.log('📹 Video tracks:', this.localStream.getVideoTracks().length);
+      console.log('🎤 Audio tracks:', this.localStream.getAudioTracks().length);
       return this.localStream;
     } catch (error) {
       console.error('❌ Failed to initialize local media:', error);
@@ -219,9 +229,15 @@ export class WebRTCService {
   async startScreenShare(): Promise<MediaStream | null> {
     try {
       this.screenStream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
+        video: {
+          displaySurface: 'monitor'
+        },
         audio: true
       });
+
+      console.log('🖥️ Screen share started');
+      console.log('📹 Screen video tracks:', this.screenStream.getVideoTracks().length);
+      console.log('🎤 Screen audio tracks:', this.screenStream.getAudioTracks().length);
 
       this.isScreenSharing = true;
       socketService.startScreenShare();
@@ -232,10 +248,25 @@ export class WebRTCService {
         const sender = peerConnection.getSenders().find((s: RTCRtpSender) => 
           s.track && s.track.kind === 'video'
         );
-        if (sender) {
+        if (sender && videoTrack) {
+          console.log(`🔄 Replacing video track for ${participantId} with screen share`);
           await sender.replaceTrack(videoTrack);
         }
       });
+
+      // If screen has audio, replace audio track as well
+      const audioTrack = this.screenStream.getAudioTracks()[0];
+      if (audioTrack) {
+        this.peerConnections.forEach(async (peerConnection, participantId) => {
+          const sender = peerConnection.getSenders().find((s: RTCRtpSender) => 
+            s.track && s.track.kind === 'audio'
+          );
+          if (sender) {
+            console.log(`🔄 Replacing audio track for ${participantId} with screen audio`);
+            await sender.replaceTrack(audioTrack);
+          }
+        });
+      }
 
       // Listen for screen share end
       videoTrack.onended = () => {
@@ -252,20 +283,34 @@ export class WebRTCService {
   // Stop screen sharing
   async stopScreenShare(): Promise<void> {
     if (this.screenStream) {
+      console.log('🛑 Stopping screen share');
       this.screenStream.getTracks().forEach(track => track.stop());
       this.screenStream = null;
       this.isScreenSharing = false;
       socketService.stopScreenShare();
 
-      // Replace back to camera
+      // Replace back to camera and microphone
       if (this.localStream) {
         const videoTrack = this.localStream.getVideoTracks()[0];
+        const audioTrack = this.localStream.getAudioTracks()[0];
+        
         this.peerConnections.forEach(async (peerConnection, participantId) => {
-          const sender = peerConnection.getSenders().find((s: RTCRtpSender) => 
+          // Replace video track
+          const videoSender = peerConnection.getSenders().find((s: RTCRtpSender) => 
             s.track && s.track.kind === 'video'
           );
-          if (sender && videoTrack) {
-            await sender.replaceTrack(videoTrack);
+          if (videoSender && videoTrack) {
+            console.log(`🔄 Restoring camera for ${participantId}`);
+            await videoSender.replaceTrack(videoTrack);
+          }
+
+          // Replace audio track back to microphone
+          const audioSender = peerConnection.getSenders().find((s: RTCRtpSender) => 
+            s.track && s.track.kind === 'audio'
+          );
+          if (audioSender && audioTrack) {
+            console.log(`🔄 Restoring microphone for ${participantId}`);
+            await audioSender.replaceTrack(audioTrack);
           }
         });
       }
