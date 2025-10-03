@@ -1,0 +1,37 @@
+name: beauty_lms_flutter
+description: A Flutter frontend for Beauty LMS Video Conferencing System
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI
+  cupertino_icons: ^1.0.6
+  
+  # HTTP & API
+  http: ^1.1.0
+  
+  # WebSocket & Real-time
+  socket_io_client: ^2.0.3+1
+  
+  # WebRTC for video conferencing
+  flutter_webrtc: ^0.9.48
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Utilities
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
