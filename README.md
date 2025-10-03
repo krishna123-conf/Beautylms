@@ -247,7 +247,7 @@ For **production deployment optimized for 1000-1500 concurrent users**, see our 
 
 **Quick Deploy Script:**
 ```bash
-cd ~/Beauty-lms/scripts
+cd ~/Beautylms/scripts
 ./production_deploy.sh
 ```
 

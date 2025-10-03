@@ -177,8 +177,8 @@ cat /etc/apt/apt.conf.d/50unattended-upgrades
 
 ```bash
 # Secure .env.production file
-chmod 600 ~/Beauty-lms/backend/.env.production
-chown beautylms:beautylms ~/Beauty-lms/backend/.env.production
+chmod 600 ~/Beautylms/backend/.env.production
+chown beautylms:beautylms ~/Beautylms/backend/.env.production
 
 # Secure Firebase credentials
 chmod 600 ~/.credentials/serviceAccountKey.json
@@ -188,7 +188,7 @@ chown beautylms:beautylms ~/.credentials/serviceAccountKey.json
 **Verify no secrets in code:**
 ```bash
 # Search for potential secrets in code
-cd ~/Beauty-lms
+cd ~/Beautylms
 grep -r "password\|secret\|key\|token" --include="*.js" backend/ | grep -v "process.env" | grep -v "// "
 ```
 
@@ -228,7 +228,7 @@ The backend already includes basic validation, but ensure:
 
 Install express-rate-limit:
 ```bash
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 npm install express-rate-limit
 ```
 
@@ -688,7 +688,7 @@ sudo crontab -e
    ```bash
    # Copy logs
    sudo cp -r /var/log ~/incident-$(date +%Y%m%d)/
-   sudo cp -r ~/Beauty-lms/logs ~/incident-$(date +%Y%m%d)/
+   sudo cp -r ~/Beautylms/logs ~/incident-$(date +%Y%m%d)/
    ```
 
 4. **Review access logs:**
@@ -780,7 +780,7 @@ echo -e "\n6. SSL Certificate Expiry:" >> ~/security-audit.log
 sudo certbot certificates >> ~/security-audit.log
 
 echo -e "\n7. Large Files (potential uploads):" >> ~/security-audit.log
-find ~/Beauty-lms -type f -size +100M >> ~/security-audit.log
+find ~/Beautylms -type f -size +100M >> ~/security-audit.log
 
 echo -e "\n8. Running Processes:" >> ~/security-audit.log
 ps aux --sort=-%mem | head -20 >> ~/security-audit.log

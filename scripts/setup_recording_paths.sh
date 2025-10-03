@@ -6,7 +6,7 @@
 set -e  # Exit on any error
 
 # Configuration
-RECORDINGS_DIR="/home/beautylms/Beauty-lms/recordings"
+RECORDINGS_DIR="/home/beautylms/Beautylms/recordings"
 USER="beautylms"
 GROUP="beautylms"
 LOG_FILE="/tmp/recording_setup.log"
@@ -191,7 +191,7 @@ create_test_script() {
 #!/bin/bash
 
 # Test script for recording setup
-RECORDINGS_DIR="/home/beautylms/Beauty-lms/recordings"
+RECORDINGS_DIR="/home/beautylms/Beautylms/recordings"
 
 echo "=== Testing Recording Setup ==="
 

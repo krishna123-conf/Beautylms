@@ -33,10 +33,10 @@ echo "================================================"
 echo ""
 
 # Load environment variables
-if [ -f "/home/beautylms/Beauty-lms/backend/.env.production" ]; then
+if [ -f "/home/beautylms/Beautylms/backend/.env.production" ]; then
     log_info "Loading production environment..."
     set -a
-    source /home/beautylms/Beauty-lms/backend/.env.production
+    source /home/beautylms/Beautylms/backend/.env.production
     set +a
 else
     log_warning "Production environment file not found, using defaults"

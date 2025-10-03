@@ -17,8 +17,8 @@ module.exports = {
     max_restarts: 10, // Max restarts within 1 minute before giving up
     
     // Logging configuration
-    error_file: '/home/beautylms/Beauty-lms/logs/backend-error.log',
-    out_file: '/home/beautylms/Beauty-lms/logs/backend-out.log',
+    error_file: '/home/beautylms/Beautylms/logs/backend-error.log',
+    out_file: '/home/beautylms/Beautylms/logs/backend-out.log',
     log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
     merge_logs: true,
     

@@ -269,7 +269,7 @@ echo "════════════════════════�
 
 log_info "Creating log rotation configuration..."
 cat > /etc/logrotate.d/beauty-lms << EOF
-/home/beautylms/Beauty-lms/logs/*.log {
+/home/beautylms/Beautylms/logs/*.log {
     daily
     rotate 14
     compress
@@ -359,8 +359,8 @@ echo ""
 
 echo "4. Recent Errors (Last 5)"
 echo "-------------------------"
-if [ -f /home/beautylms/Beauty-lms/logs/backend-error.log ]; then
-    tail -n 5 /home/beautylms/Beauty-lms/logs/backend-error.log
+if [ -f /home/beautylms/Beautylms/logs/backend-error.log ]; then
+    tail -n 5 /home/beautylms/Beautylms/logs/backend-error.log
 else
     echo "No error log found"
 fi

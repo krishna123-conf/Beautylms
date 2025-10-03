@@ -129,7 +129,7 @@ app.get('/api', (req, res) => {
             production: 'Firebase Authentication required'
         },
         support: {
-            repository: 'https://github.com/krishna123-conf/Beauty-lms',
+            repository: 'https://github.com/krishna123-conf/Beautylms',
             documentation: 'See API_DOCUMENTATION.md for complete reference'
         }
     });
@@ -147,7 +147,7 @@ app.get('/api/docs', (req, res) => {
             version: '1.0.0',
             contact: {
                 name: 'Beauty LMS Support',
-                url: 'https://github.com/krishna123-conf/Beauty-lms'
+                url: 'https://github.com/krishna123-conf/Beautylms'
             },
             license: {
                 name: 'MIT',
