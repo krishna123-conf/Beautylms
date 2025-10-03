@@ -229,11 +229,9 @@ export class WebRTCService {
   async startScreenShare(): Promise<MediaStream | null> {
     try {
       this.screenStream = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          displaySurface: 'monitor'
-        },
+        video: true,
         audio: true
-      });
+      } as any);
 
       console.log('🖥️ Screen share started');
       console.log('📹 Screen video tracks:', this.screenStream.getVideoTracks().length);
