@@ -15,7 +15,7 @@ Quick command reference for managing Beauty LMS in production.
 
 ### Deploy Application
 ```bash
-cd ~/Beauty-lms/scripts
+cd ~/Beautylms/scripts
 ./production_deploy.sh
 ```
 
@@ -246,8 +246,8 @@ sudo fail2ban-client status sshd
 ### View Logs
 ```bash
 # Application logs
-tail -f ~/Beauty-lms/logs/backend-out.log
-tail -f ~/Beauty-lms/logs/backend-error.log
+tail -f ~/Beautylms/logs/backend-out.log
+tail -f ~/Beautylms/logs/backend-error.log
 
 # System logs
 sudo journalctl -u beauty-lms-backend -f
@@ -263,7 +263,7 @@ sudo tail -f /var/log/auth.log
 ### Search Logs
 ```bash
 # Search for errors
-grep -i "error" ~/Beauty-lms/logs/backend-error.log | tail -20
+grep -i "error" ~/Beautylms/logs/backend-error.log | tail -20
 
 # Search for specific IP
 grep "1.2.3.4" /var/log/nginx/beauty-lms-access.log
@@ -272,7 +272,7 @@ grep "1.2.3.4" /var/log/nginx/beauty-lms-access.log
 sudo grep "Failed password" /var/log/auth.log | tail -20
 
 # Count errors
-grep -c "error" ~/Beauty-lms/logs/backend-error.log
+grep -c "error" ~/Beautylms/logs/backend-error.log
 ```
 
 ---
@@ -283,17 +283,17 @@ grep -c "error" ~/Beauty-lms/logs/backend-error.log
 ```bash
 # Backup configuration
 tar -czf ~/backups/config-$(date +%Y%m%d).tar.gz \
-  ~/Beauty-lms/backend/.env.production \
-  ~/Beauty-lms/backend/ecosystem.config.js \
+  ~/Beautylms/backend/.env.production \
+  ~/Beautylms/backend/ecosystem.config.js \
   /etc/nginx/sites-available/beauty-lms
 
 # Backup recordings (last 7 days)
-find ~/Beauty-lms/recordings/completed -type f -mtime -7 \
+find ~/Beautylms/recordings/completed -type f -mtime -7 \
   -exec cp {} ~/backups/recordings/ \;
 
 # Backup entire application
 tar -czf ~/backups/beauty-lms-$(date +%Y%m%d).tar.gz \
-  ~/Beauty-lms
+  ~/Beautylms
 ```
 
 ### Restore Commands
@@ -328,7 +328,7 @@ sudo lsof -i :3000
 sudo kill -9 $(sudo lsof -t -i:3000)
 
 # Test configuration
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 node -e "require('dotenv').config({path: '.env.production'}); console.log('OK');"
 ```
 
@@ -354,7 +354,7 @@ curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" \
 ### MediaSoup Issues
 ```bash
 # Check announced IP
-grep MEDIASOUP_ANNOUNCED_IP ~/Beauty-lms/backend/.env.production
+grep MEDIASOUP_ANNOUNCED_IP ~/Beautylms/backend/.env.production
 
 # Check current IP
 curl -4 ifconfig.me
@@ -391,11 +391,11 @@ sudo rkhunter --check
 ### File Permissions
 ```bash
 # Check file permissions
-ls -la ~/Beauty-lms/backend/.env.production
+ls -la ~/Beautylms/backend/.env.production
 ls -la ~/.credentials/serviceAccountKey.json
 
 # Fix permissions
-chmod 600 ~/Beauty-lms/backend/.env.production
+chmod 600 ~/Beautylms/backend/.env.production
 chmod 600 ~/.credentials/serviceAccountKey.json
 ```
 
@@ -454,7 +454,7 @@ sudo apt clean
 ### Application Updates
 ```bash
 # Pull latest code
-cd ~/Beauty-lms
+cd ~/Beautylms
 git pull origin main
 
 # Install dependencies
@@ -532,10 +532,10 @@ curl http://localhost:3000/health
 ## 📞 Quick Contact Info
 
 ### Important Paths
-- **Application**: `/home/beautylms/Beauty-lms`
-- **Logs**: `/home/beautylms/Beauty-lms/logs`
+- **Application**: `/home/beautylms/Beautylms`
+- **Logs**: `/home/beautylms/Beautylms/logs`
 - **Nginx Config**: `/etc/nginx/sites-available/beauty-lms`
-- **Environment**: `/home/beautylms/Beauty-lms/backend/.env.production`
+- **Environment**: `/home/beautylms/Beautylms/backend/.env.production`
 - **Firebase Key**: `/home/beautylms/.credentials/serviceAccountKey.json`
 
 ### Important URLs

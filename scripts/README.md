@@ -17,7 +17,7 @@ Collection of deployment, testing, and maintenance scripts for Beauty LMS.
 
 **Prerequisites**:
 - Must be run as `beautylms` user
-- Must be in Beauty-lms root directory
+- Must be in Beautylms root directory
 - All dependencies must be installed
 
 **Time**: ~5 minutes
@@ -188,7 +188,7 @@ sudo ./scripts/optimize_for_production.sh
 sudo reboot
 
 # 2. After reboot, deploy application (as beautylms)
-cd ~/Beauty-lms
+cd ~/Beautylms
 ./scripts/production_deploy.sh
 
 # 3. Verify deployment
@@ -306,7 +306,7 @@ sudo su - beautylms
 # Most scripts provide detailed error messages
 
 # Common issues:
-# 1. Wrong directory: cd ~/Beauty-lms
+# 1. Wrong directory: cd ~/Beautylms
 # 2. Missing dependencies: Check prerequisites
 # 3. Wrong user: Switch to correct user
 # 4. Permissions: Check file permissions

@@ -189,7 +189,7 @@ Follow this sequence:
    - Clone repository
    - Run deployment script:
      ```bash
-     cd ~/Beauty-lms/scripts
+     cd ~/Beautylms/scripts
      ./production_deploy.sh
      ```
 
