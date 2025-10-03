@@ -34,7 +34,7 @@ log_error() {
 }
 
 # Default paths
-BACKEND_DIR="/home/beautylms/Beauty-lms/backend"
+BACKEND_DIR="/home/beautylms/Beautylms/backend"
 CREDENTIALS_DIR="/home/beautylms/.credentials"
 SERVICE_ACCOUNT_FILE="$CREDENTIALS_DIR/serviceAccountKey.json"
 ENV_FILE="$BACKEND_DIR/.env.production"

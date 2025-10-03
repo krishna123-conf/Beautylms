@@ -104,8 +104,8 @@ pm2 flush
 **Log Files:**
 ```bash
 # Application logs
-tail -f ~/Beauty-lms/logs/backend-out.log
-tail -f ~/Beauty-lms/logs/backend-error.log
+tail -f ~/Beautylms/logs/backend-out.log
+tail -f ~/Beautylms/logs/backend-error.log
 
 # Nginx logs
 sudo tail -f /var/log/nginx/beauty-lms-access.log
@@ -120,13 +120,13 @@ sudo journalctl -u beauty-lms-backend -f
 **Find errors:**
 ```bash
 # Recent errors in application
-grep -i "error" ~/Beauty-lms/logs/backend-error.log | tail -20
+grep -i "error" ~/Beautylms/logs/backend-error.log | tail -20
 
 # Nginx 5xx errors
 grep " 5[0-9][0-9] " /var/log/nginx/beauty-lms-error.log | tail -20
 
 # Failed connections
-grep -i "connection refused\|timeout" ~/Beauty-lms/logs/backend-error.log
+grep -i "connection refused\|timeout" ~/Beautylms/logs/backend-error.log
 ```
 
 **Analyze traffic patterns:**
@@ -235,7 +235,7 @@ done
 watch -n 2 'netstat -an | grep :3000 | grep -c ESTABLISHED'
 
 # Check for connection errors
-grep -i "websocket\|socket.io" ~/Beauty-lms/logs/backend-error.log | tail -20
+grep -i "websocket\|socket.io" ~/Beautylms/logs/backend-error.log | tail -20
 ```
 
 **Database Performance (Firebase):**
@@ -254,7 +254,7 @@ pm2 logs beauty-lms-backend | grep "MediaSoup worker"
 netstat -tuln | grep -E "4[0-9]{4}" | wc -l
 
 # Check for MediaSoup errors
-grep -i "mediasoup" ~/Beauty-lms/logs/backend-error.log | tail -20
+grep -i "mediasoup" ~/Beautylms/logs/backend-error.log | tail -20
 ```
 
 **Video Quality Indicators:**
@@ -360,14 +360,14 @@ pm2 logs beauty-lms-backend --lines 50 --err
 sudo lsof -i :3000
 
 # Test environment configuration
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 node -e "require('dotenv').config({path: '.env.production'}); console.log(process.env);"
 ```
 
 **Solutions:**
 1. **Fix environment variables:**
    ```bash
-   nano ~/Beauty-lms/backend/.env.production
+   nano ~/Beautylms/backend/.env.production
    ```
 
 2. **Check Firebase credentials:**
@@ -415,7 +415,7 @@ sudo ufw status | grep 443
 
 2. **Check CORS settings:**
    ```bash
-   grep ALLOWED_ORIGINS ~/Beauty-lms/backend/.env.production
+   grep ALLOWED_ORIGINS ~/Beautylms/backend/.env.production
    ```
 
 3. **Restart services:**
@@ -434,7 +434,7 @@ sudo ufw status | grep 443
 **Diagnosis:**
 ```bash
 # Check MediaSoup announced IP
-grep MEDIASOUP_ANNOUNCED_IP ~/Beauty-lms/backend/.env.production
+grep MEDIASOUP_ANNOUNCED_IP ~/Beautylms/backend/.env.production
 
 # Check if it matches server IP
 curl -4 ifconfig.me
@@ -453,7 +453,7 @@ pm2 logs beauty-lms-backend | grep -i "mediasoup\|transport\|producer\|consumer"
    PUBLIC_IP=$(curl -4 ifconfig.me)
    
    # Update .env.production
-   sed -i "s/MEDIASOUP_ANNOUNCED_IP=.*/MEDIASOUP_ANNOUNCED_IP=$PUBLIC_IP/" ~/Beauty-lms/backend/.env.production
+   sed -i "s/MEDIASOUP_ANNOUNCED_IP=.*/MEDIASOUP_ANNOUNCED_IP=$PUBLIC_IP/" ~/Beautylms/backend/.env.production
    
    # Restart
    pm2 restart beauty-lms-backend
@@ -589,13 +589,13 @@ pm2 status
 df -h /
 
 # Check recent errors
-tail -20 ~/Beauty-lms/logs/backend-error.log
+tail -20 ~/Beautylms/logs/backend-error.log
 
 # Check memory usage
 free -h
 
 # Clean old logs (older than 7 days)
-find ~/Beauty-lms/logs -name "*.log" -mtime +7 -delete
+find ~/Beautylms/logs -name "*.log" -mtime +7 -delete
 
 echo "=== Maintenance Complete ==="
 ```
@@ -612,7 +612,7 @@ echo "=== Weekly Maintenance - $(date) ==="
 sudo apt update && sudo apt upgrade -y
 
 # Clean old recordings (older than 30 days)
-find ~/Beauty-lms/recordings/completed -type f -mtime +30 -delete
+find ~/Beautylms/recordings/completed -type f -mtime +30 -delete
 
 # Rotate logs
 pm2 reloadLogs
@@ -628,8 +628,8 @@ sudo tail -100 /var/log/nginx/beauty-lms-error.log
 
 # Backup configuration files
 tar -czf ~/backups/config-$(date +%Y%m%d).tar.gz \
-  ~/Beauty-lms/backend/.env.production \
-  ~/Beauty-lms/backend/ecosystem.config.js \
+  ~/Beautylms/backend/.env.production \
+  ~/Beautylms/backend/ecosystem.config.js \
   /etc/nginx/sites-available/beauty-lms
 
 echo "=== Weekly Maintenance Complete ==="

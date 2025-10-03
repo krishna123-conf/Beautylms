@@ -10,14 +10,15 @@ Complete production deployment guide for hosting Beauty LMS on Hostinger VPS wit
 4. [Install Dependencies](#install-dependencies)
 5. [Deploy Application](#deploy-application)
 6. [Configure Firewall](#configure-firewall)
-7. [Setup SSL Certificate](#setup-ssl-certificate)
-8. [Configure Nginx](#configure-nginx)
-9. [Setup Process Manager (PM2)](#setup-process-manager-pm2)
-10. [Configure Environment Variables](#configure-environment-variables)
-11. [Start Application](#start-application)
-12. [Monitoring & Maintenance](#monitoring--maintenance)
-13. [Performance Optimization](#performance-optimization)
-14. [Troubleshooting](#troubleshooting)
+7. [Test HTTP Access Before SSL](#test-http-access-before-ssl)
+8. [Setup SSL Certificate](#setup-ssl-certificate)
+9. [Configure Nginx](#configure-nginx)
+10. [Setup Process Manager (PM2)](#setup-process-manager-pm2)
+11. [Configure Environment Variables](#configure-environment-variables)
+12. [Start Application](#start-application)
+13. [Monitoring & Maintenance](#monitoring--maintenance)
+14. [Performance Optimization](#performance-optimization)
+15. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -100,14 +101,14 @@ sudo su - beautylms
 
 ```bash
 # Create necessary directories
-mkdir -p ~/Beauty-lms
+mkdir -p ~/Beautylms
 mkdir -p ~/.credentials
-mkdir -p ~/Beauty-lms/logs
-mkdir -p ~/Beauty-lms/recordings/{active,completed,failed,temp,private}
+mkdir -p ~/Beautylms/logs
+mkdir -p ~/Beautylms/recordings/{active,completed,failed,temp,private}
 
 # Set proper permissions
 chmod 700 ~/.credentials
-chmod 755 ~/Beauty-lms/recordings
+chmod 755 ~/Beautylms/recordings
 ```
 
 ---
@@ -172,7 +173,7 @@ sudo apt install -y certbot python3-certbot-nginx
 
 ```bash
 # Clone the Beauty LMS repository
-cd ~/Beauty-lms
+cd ~/Beautylms
 git clone https://github.com/krishna123-conf/Beautylms.git .
 
 # If repository is private, you'll need to setup SSH keys or use HTTPS with credentials
@@ -181,7 +182,7 @@ git clone https://github.com/krishna123-conf/Beautylms.git .
 ### Step 2: Install Backend Dependencies
 
 ```bash
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 npm install --production
 
 # This will install all required Node.js packages
@@ -191,7 +192,7 @@ npm install --production
 ### Step 3: Install Frontend Dependencies (Optional - if hosting frontend)
 
 ```bash
-cd ~/Beauty-lms/frontend
+cd ~/Beautylms/frontend
 npm install
 npm run build
 
@@ -239,6 +240,66 @@ To                         Action      From
 
 ---
 
+## Test HTTP Access Before SSL
+
+**IMPORTANT: Test your application with HTTP first before setting up SSL!**
+
+### Step 1: Temporarily Disable HTTPS Redirect
+
+Before SSL certificate is installed, you need to allow HTTP access for testing:
+
+```bash
+# Edit the Nginx configuration
+sudo nano /etc/nginx/sites-available/beauty-lms
+```
+
+Find the HTTP server block (around line 35) and modify the `location /` section:
+
+```nginx
+# Comment out this line:
+# return 301 https://$server_name$request_uri;
+
+# Uncomment these lines:
+proxy_pass http://beauty_lms_backend;
+proxy_http_version 1.1;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+```
+
+Save and reload Nginx:
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### Step 2: Test HTTP Endpoint
+
+```bash
+# Test health endpoint via HTTP
+curl http://yourdomain.com/health
+
+# Expected response:
+# {"status":"OK","message":"Beauty LMS Video Conferencing Backend is running","timestamp":"..."}
+
+# Test from external machine (optional)
+curl http://YOUR_SERVER_IP/health
+```
+
+**If the test fails, see Troubleshooting section "HTTP Connection Failed"**
+
+### Step 3: Access Application
+
+Open your browser and navigate to:
+```
+http://yourdomain.com
+```
+
+You should see the Beauty LMS application running via HTTP!
+
+---
+
 ## Setup SSL Certificate
 
 ### Step 1: Configure DNS
@@ -265,7 +326,44 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 # 3. Choose whether to redirect HTTP to HTTPS (recommended: Yes)
 ```
 
-### Step 3: Setup Auto-Renewal
+### Step 3: Re-enable HTTPS Redirect
+
+After SSL is successfully installed, re-enable the HTTPS redirect:
+
+```bash
+# Edit the Nginx configuration
+sudo nano /etc/nginx/sites-available/beauty-lms
+```
+
+In the HTTP server block, restore the redirect:
+
+```nginx
+# Uncomment this line:
+return 301 https://$server_name$request_uri;
+
+# Comment out the proxy lines (they're no longer needed for the main location):
+# proxy_pass http://beauty_lms_backend;
+# proxy_http_version 1.1;
+# ...etc
+```
+
+Save and reload:
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### Step 4: Test HTTPS
+
+```bash
+# Test HTTPS health endpoint
+curl https://yourdomain.com/health
+
+# Should return:
+# {"status":"OK","message":"Beauty LMS Video Conferencing Backend is running","timestamp":"..."}
+```
+
+### Step 5: Setup Auto-Renewal
 
 ```bash
 # Test renewal process
@@ -290,7 +388,7 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.ba
 
 ```bash
 # Copy the provided nginx.conf to Nginx sites-available
-sudo cp ~/Beauty-lms/nginx.conf /etc/nginx/sites-available/beauty-lms
+sudo cp ~/Beautylms/nginx.conf /etc/nginx/sites-available/beauty-lms
 
 # Edit the configuration to match your domain and paths
 sudo nano /etc/nginx/sites-available/beauty-lms
@@ -382,7 +480,7 @@ sudo systemctl restart nginx
 The repository includes an `ecosystem.config.js` file optimized for production:
 
 ```bash
-cat ~/Beauty-lms/backend/ecosystem.config.js
+cat ~/Beautylms/backend/ecosystem.config.js
 ```
 
 ### Step 2: Understand PM2 Configuration
@@ -396,7 +494,7 @@ The ecosystem configuration:
 ### Step 3: Test PM2 Configuration
 
 ```bash
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 
 # Test that PM2 can read the config
 pm2 start ecosystem.config.js --env production --dry-run
@@ -432,7 +530,7 @@ curl -4 ifconfig.me
 ### Step 3: Create Production Environment File
 
 ```bash
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 
 # Copy the example file
 cp .env.production.example .env.production
@@ -469,7 +567,7 @@ JWT_SECRET=$(openssl rand -base64 64)
 
 # Recording Configuration
 RECORDING_ENABLED=true
-RECORDINGS_PATH=/home/beautylms/Beauty-lms/recordings
+RECORDINGS_PATH=/home/beautylms/Beautylms/recordings
 RECORDING_BASE_URL=https://yourdomain.com
 RECORDING_SECRET=$(openssl rand -base64 32)
 ```
@@ -500,7 +598,7 @@ node -e "require('dotenv').config({path: '.env.production'}); console.log('PORT:
 ### Step 1: Start Backend with PM2
 
 ```bash
-cd ~/Beauty-lms/backend
+cd ~/Beautylms/backend
 
 # Start the application in production mode
 pm2 start ecosystem.config.js --env production
@@ -610,8 +708,8 @@ netstat -tuln | grep -E "4[0-9]{4}"
 
 ```bash
 # Application logs
-tail -f ~/Beauty-lms/logs/backend-out.log
-tail -f ~/Beauty-lms/logs/backend-error.log
+tail -f ~/Beautylms/logs/backend-out.log
+tail -f ~/Beautylms/logs/backend-error.log
 
 # Nginx logs
 sudo tail -f /var/log/nginx/beauty-lms-access.log
@@ -652,7 +750,7 @@ uptime
 
 echo ""
 echo "4. Disk Usage:"
-df -h /home/beautylms/Beauty-lms
+df -h /home/beautylms/Beautylms
 
 echo ""
 echo "5. Active Connections:"
@@ -664,7 +762,7 @@ netstat -tuln | grep -E "4[0-9]{4}" | wc -l
 
 echo ""
 echo "7. Recent Errors (last 10):"
-tail -n 10 ~/Beauty-lms/logs/backend-error.log
+tail -n 10 ~/Beautylms/logs/backend-error.log
 ```
 
 Make it executable:
@@ -746,7 +844,7 @@ sudo sysctl -p
 Update PM2 ecosystem configuration for maximum performance:
 
 ```bash
-nano ~/Beauty-lms/backend/ecosystem.config.js
+nano ~/Beautylms/backend/ecosystem.config.js
 ```
 
 Ensure these settings are optimal:
@@ -807,7 +905,7 @@ For systems with many recordings:
 crontab -e
 
 # Add this line to run cleanup daily at 2 AM
-0 2 * * * cd /home/beautylms/Beauty-lms/backend && node -e "require('./utils/recordingManager').cleanupOldRecordings(30)"
+0 2 * * * cd /home/beautylms/Beautylms/backend && node -e "require('./utils/recordingManager').cleanupOldRecordings(30)"
 ```
 
 ### 7. Caching Strategy
@@ -838,6 +936,94 @@ ENABLE_REDIS_ADAPTER=true
 ## Troubleshooting
 
 ### Common Issues and Solutions
+
+#### 0. HTTP Connection Failed (curl: Failed to connect to server)
+
+**Symptoms:**
+```bash
+curl http://yourdomain.com/health
+# curl: (7) Failed to connect to yourdomain.com port 80 after 3 ms: Could not connect to server
+```
+
+**This is the MOST COMMON deployment issue. Solutions:**
+
+```bash
+# Step 1: Verify backend is running
+pm2 status
+# Should show beauty-lms-backend as 'online'
+
+# If not running:
+cd ~/Beautylms/backend
+pm2 start ecosystem.config.js --env production
+pm2 save
+
+# Step 2: Test backend directly on localhost
+curl http://localhost:3000/health
+# Should return: {"status":"OK","message":"Beauty LMS Video Conferencing Backend is running",...}
+
+# If localhost works but domain doesn't, continue:
+
+# Step 3: Check if Nginx is running
+sudo systemctl status nginx
+# Should show 'active (running)'
+
+# If not running:
+sudo systemctl start nginx
+
+# Step 4: Check Nginx configuration
+sudo nginx -t
+# Should show: nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+# If errors, review the nginx configuration
+
+# Step 5: Verify Nginx site is enabled
+ls -la /etc/nginx/sites-enabled/
+# Should show beauty-lms symlink
+
+# If missing:
+sudo ln -s /etc/nginx/sites-available/beauty-lms /etc/nginx/sites-enabled/
+sudo systemctl reload nginx
+
+# Step 6: Check firewall allows port 80
+sudo ufw status | grep 80
+# Should show: 80/tcp ALLOW Anywhere
+
+# If missing:
+sudo ufw allow 80/tcp
+sudo ufw reload
+
+# Step 7: For INITIAL TESTING BEFORE SSL setup, modify nginx.conf
+# Edit /etc/nginx/sites-available/beauty-lms and temporarily comment out HTTPS redirect:
+sudo nano /etc/nginx/sites-available/beauty-lms
+
+# In the HTTP server block, comment out the redirect line and uncomment the proxy lines:
+# location / {
+#     # return 301 https://$server_name$request_uri;  # <- COMMENT THIS OUT
+#     
+#     # Uncomment these for testing:
+#     proxy_pass http://beauty_lms_backend;
+#     proxy_http_version 1.1;
+#     proxy_set_header Host $host;
+#     proxy_set_header X-Real-IP $remote_addr;
+#     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_set_header X-Forwarded-Proto $scheme;
+# }
+
+# Then reload Nginx:
+sudo nginx -t && sudo systemctl reload nginx
+
+# Step 8: Test again
+curl http://yourdomain.com/health
+# Should now work!
+
+# Step 9: After SSL is configured, re-enable the HTTPS redirect
+# Uncomment the return 301 line and comment out the proxy lines again
+```
+
+**Important Notes:**
+- The /health endpoint is accessible via HTTP even after SSL is configured
+- For initial deployment, test HTTP first before setting up SSL
+- After SSL is working, you can re-enable the HTTPS redirect for all other routes
 
 #### 1. Application Won't Start
 
@@ -1023,7 +1209,7 @@ free -h
 ### Daily Tasks
 - [ ] Check application status: `pm2 status`
 - [ ] Monitor disk space: `df -h`
-- [ ] Check error logs: `tail -f ~/Beauty-lms/logs/backend-error.log`
+- [ ] Check error logs: `tail -f ~/Beautylms/logs/backend-error.log`
 
 ### Weekly Tasks
 - [ ] Review system performance: `./monitor-beauty-lms.sh`
@@ -1078,10 +1264,10 @@ DATE=$(date +%Y%m%d_%H%M%S)
 mkdir -p $BACKUP_DIR
 
 # Backup environment files
-cp ~/Beauty-lms/backend/.env.production $BACKUP_DIR/env_$DATE.bak
+cp ~/Beautylms/backend/.env.production $BACKUP_DIR/env_$DATE.bak
 
 # Backup recordings (last 7 days)
-find ~/Beauty-lms/recordings/completed -type f -mtime -7 -exec cp {} $BACKUP_DIR/ \;
+find ~/Beautylms/recordings/completed -type f -mtime -7 -exec cp {} $BACKUP_DIR/ \;
 
 # Backup PM2 config
 pm2 save
@@ -1125,7 +1311,7 @@ crontab -e
 
 Run the verification script:
 ```bash
-cd ~/Beauty-lms/scripts
+cd ~/Beautylms/scripts
 chmod +x verify_deployment.sh
 ./verify_deployment.sh yourdomain.com
 ```

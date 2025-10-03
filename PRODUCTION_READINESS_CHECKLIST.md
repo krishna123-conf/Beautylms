@@ -343,7 +343,7 @@ For 1500 concurrent users:
 Run the comprehensive verification script:
 
 ```bash
-cd ~/Beauty-lms/scripts
+cd ~/Beautylms/scripts
 ./verify_deployment.sh yourdomain.com
 ```
 
@@ -368,9 +368,9 @@ Based on your configuration:
 
 ## 📞 Support Resources
 
-- **Documentation**: `/home/beautylms/Beauty-lms/HOSTINGER_VPS_DEPLOYMENT.md`
+- **Documentation**: `/home/beautylms/Beautylms/HOSTINGER_VPS_DEPLOYMENT.md`
 - **Monitor Script**: `/home/beautylms/monitor-performance.sh`
-- **Logs Location**: `/home/beautylms/Beauty-lms/logs/`
+- **Logs Location**: `/home/beautylms/Beautylms/logs/`
 - **PM2 Logs**: `pm2 logs beauty-lms-backend`
 - **Nginx Logs**: `/var/log/nginx/beauty-lms-*.log`
 

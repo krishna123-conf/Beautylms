@@ -32,8 +32,8 @@ fi
 
 # Check if we're in the right directory
 if [ ! -f "backend/package.json" ]; then
-    log_error "Not in Beauty-lms root directory"
-    log_info "Navigate to: cd ~/Beauty-lms"
+    log_error "Not in Beautylms root directory"
+    log_info "Navigate to: cd ~/Beautylms"
     exit 1
 fi
 
@@ -154,7 +154,7 @@ echo "════════════════════════�
 echo "Step 4: Setting Up Directories"
 echo "═══════════════════════════════════════"
 
-cd ~/Beauty-lms
+cd ~/Beautylms
 
 log_info "Creating required directories..."
 mkdir -p logs
@@ -280,10 +280,10 @@ echo "  4. Monitor performance: ~/monitor-performance.sh"
 echo "  5. Review deployment guide: HOSTINGER_VPS_DEPLOYMENT.md"
 echo ""
 
-log_info "Deployment log saved to: ~/Beauty-lms/deployment.log"
+log_info "Deployment log saved to: ~/Beautylms/deployment.log"
 
 # Save deployment info
-cat > ~/Beauty-lms/deployment.log << EOF
+cat > ~/Beautylms/deployment.log << EOF
 Deployment completed: $(date)
 Node version: $(node --version)
 npm version: $(npm --version)
