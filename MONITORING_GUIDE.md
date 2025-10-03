@@ -224,7 +224,7 @@ curl -w "\nTime Total: %{time_total}s\n" -o /dev/null -s https://yourdomain.com/
 
 # Continuous monitoring
 while true; do 
-    curl -w "Time: %{time_total}s\n" -o /dev/null -s https://yourdomain.com/api/live_courses
+    curl -w "Time: %{time_total}s\n" -o /dev/null -s https://yourdomain.com/api/v1/live_courses
     sleep 5
 done
 ```

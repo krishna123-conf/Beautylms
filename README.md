@@ -193,14 +193,14 @@ See [FLUTTER_IMPLEMENTATION.md](FLUTTER_IMPLEMENTATION.md) for detailed comparis
 - `GET /health` - Check server status
 
 ### Live Courses
-- `GET /api/live_courses` - Get all courses
-- `GET /api/live_courses/:id` - Get specific course
-- `POST /api/live_courses/:id/start` - Start course
-- `POST /api/live_courses/:id/complete` - Complete course
+- `GET /api/v1/live_courses` - Get all courses
+- `GET /api/v1/live_courses/:id` - Get specific course
+- `POST /api/v1/live_courses/:id/start` - Start course
+- `POST /api/v1/live_courses/:id/complete` - Complete course
 
 ### Meetings
-- `POST /api/meetings/join` - Join meeting
-- `GET /api/meetings/:code/participants` - Get participants
+- `POST /api/v1/meetings/join` - Join meeting
+- `GET /api/v1/meetings/:code/participants` - Get participants
 
 ### Socket.IO Events
 - `join-meeting` - Join meeting room

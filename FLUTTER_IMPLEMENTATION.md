@@ -140,12 +140,12 @@ Both frontends connect to the same backend API:
 
 ### Endpoints Used
 - `GET /health` - Health check
-- `GET /api/live_courses` - Get all courses
-- `GET /api/live_courses/:id` - Get specific course
-- `POST /api/live_courses/:id/start` - Start course
-- `POST /api/live_courses/:id/complete` - Complete course
-- `POST /api/meetings/join` - Join meeting
-- `GET /api/meetings/:code/participants` - Get participants
+- `GET /api/v1/live_courses` - Get all courses
+- `GET /api/v1/live_courses/:id` - Get specific course
+- `POST /api/v1/live_courses/:id/start` - Start course
+- `POST /api/v1/live_courses/:id/complete` - Complete course
+- `POST /api/v1/meetings/join` - Join meeting
+- `GET /api/v1/meetings/:code/participants` - Get participants
 
 ### Socket.IO Events
 Both implementations use identical Socket.IO events:
