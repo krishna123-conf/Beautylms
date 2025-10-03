@@ -1,0 +1,27 @@
+[Unit]
+Description=Beauty LMS Backend Service
+Documentation=https://github.com/krishna123-conf/Beautylms
+After=network.target
+
+[Service]
+Type=simple
+User=beautylms
+WorkingDirectory=/home/beautylms/Beauty-lms/backend
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/pm2 start /home/beautylms/Beauty-lms/backend/ecosystem.config.js --no-daemon
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/home/beautylms/Beauty-lms/logs/backend-systemd.log
+StandardError=append:/home/beautylms/Beauty-lms/logs/backend-systemd-error.log
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Performance settings
+LimitNOFILE=65535
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target

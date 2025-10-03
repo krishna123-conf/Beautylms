@@ -538,17 +538,77 @@ app.use('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// Initialize MediaSoup before starting server
-initializeMediaSoup().then(() => {
-    server.listen(PORT, () => {
-        console.log(`🚀 Beauty LMS Video Conferencing Server running on port ${PORT}`);
-        console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
-        console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-    });
-}).catch((error) => {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
-});
+// Production-ready server configuration for high concurrent users
+const startServer = async () => {
+    try {
+        // Initialize MediaSoup before starting server
+        await initializeMediaSoup();
+        
+        // Configure server timeouts for production
+        server.timeout = parseInt(process.env.SERVER_TIMEOUT) || 120000; // 2 minutes
+        server.keepAliveTimeout = parseInt(process.env.KEEP_ALIVE_TIMEOUT) || 65000; // 65 seconds
+        server.headersTimeout = parseInt(process.env.HEADERS_TIMEOUT) || 66000; // 66 seconds
+        
+        // Set max listeners for high concurrent connections
+        server.setMaxListeners(0); // Unlimited
+        process.setMaxListeners(0);
+        
+        // Listen on all network interfaces in production
+        const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+        
+        server.listen(PORT, host, () => {
+            console.log('╔═══════════════════════════════════════════════════════════╗');
+            console.log('║   Beauty LMS Video Conferencing Server                   ║');
+            console.log('╚═══════════════════════════════════════════════════════════╝');
+            console.log(`🚀 Server running on ${host}:${PORT}`);
+            console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
+            console.log(`🔗 Health check: http://${host}:${PORT}/health`);
+            console.log(`👥 Optimized for: 1000-1500 concurrent users`);
+            console.log(`⚡ MediaSoup workers: ${require('os').cpus().length}`);
+            console.log(`💾 Max connections: ${server._connections || 'unlimited'}`);
+            console.log('═══════════════════════════════════════════════════════════');
+        });
+        
+        // Handle graceful shutdown
+        const gracefulShutdown = (signal) => {
+            console.log(`\n⚠️  Received ${signal}. Gracefully shutting down...`);
+            
+            // Stop accepting new connections
+            server.close(() => {
+                console.log('✅ Server closed. All connections terminated.');
+                process.exit(0);
+            });
+            
+            // Force shutdown after 30 seconds
+            setTimeout(() => {
+                console.error('❌ Forcefully shutting down after timeout');
+                process.exit(1);
+            }, 30000);
+        };
+        
+        // Listen for termination signals
+        process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+        process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+        
+        // Handle uncaught exceptions and rejections
+        process.on('uncaughtException', (error) => {
+            console.error('❌ Uncaught Exception:', error);
+            gracefulShutdown('uncaughtException');
+        });
+        
+        process.on('unhandledRejection', (reason, promise) => {
+            console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+            // Don't exit on unhandled rejection, just log it
+        });
+        
+    } catch (error) {
+        console.error('❌ Failed to start server:', error);
+        process.exit(1);
+    }
+};
+
+// Start the server
+startServer();
 
 // Graceful shutdown
 process.on('SIGTERM', () => {

@@ -222,21 +222,41 @@ node scripts/test_flutter_integration.js
 
 ## 🚢 Deployment
 
-### Backend
+### Production Deployment (Hostinger VPS Ubuntu)
+
+For **production deployment optimized for 1000-1500 concurrent users**, see our comprehensive guides:
+
+📖 **[Hostinger VPS Deployment Guide](HOSTINGER_VPS_DEPLOYMENT.md)** - Complete step-by-step deployment guide
+📋 **[Production Readiness Checklist](PRODUCTION_READINESS_CHECKLIST.md)** - Ensure your deployment is production-ready
+
+**Quick Deploy Script:**
+```bash
+cd ~/Beauty-lms/scripts
+./production_deploy.sh
+```
+
+**System Optimization:**
+```bash
+sudo ./scripts/optimize_for_production.sh
+```
+
+### Development Deployment
+
+#### Backend
 ```bash
 cd backend
 npm install
 npm start
 ```
 
-### React Frontend
+#### React Frontend
 ```bash
 cd frontend
 npm run build
 # Deploy build/ folder to static hosting
 ```
 
-### Flutter Frontend
+#### Flutter Frontend
 
 **Web**
 ```bash
