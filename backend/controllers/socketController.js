@@ -44,6 +44,14 @@ const handleSocketConnection = (io) => {
                 }
                 meetingRooms.get(meetingCode).add(socket.id);
 
+                // Add participant to meeting
+                meeting.participants.set(participantId, {
+                    participantId,
+                    participantName,
+                    isHost: isHost || false,
+                    joinedAt: new Date().toISOString()
+                });
+
                 console.log(`👥 ${participantName} joined meeting ${meetingCode}`);
 
                 // Notify other participants
