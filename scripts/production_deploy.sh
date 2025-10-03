@@ -23,10 +23,10 @@ log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
 log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
-# Check if running as beautylms user
-if [ "$USER" != "beautylms" ]; then
-    log_error "This script must be run as 'beautylms' user"
-    log_info "Run: sudo su - beautylms"
+# Check if running as beauty user
+if [ "$USER" != "beauty" ]; then
+    log_error "This script must be run as 'beauty' user"
+    log_info "Run: sudo su - beauty"
     exit 1
 fi
 

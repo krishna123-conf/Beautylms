@@ -532,11 +532,11 @@ curl http://localhost:3000/health
 ## 📞 Quick Contact Info
 
 ### Important Paths
-- **Application**: `/home/beautylms/Beautylms`
-- **Logs**: `/home/beautylms/Beautylms/logs`
+- **Application**: `/home/beauty/Beautylms`
+- **Logs**: `/home/beauty/Beautylms/logs`
 - **Nginx Config**: `/etc/nginx/sites-available/beauty-lms`
-- **Environment**: `/home/beautylms/Beautylms/backend/.env.production`
-- **Firebase Key**: `/home/beautylms/.credentials/serviceAccountKey.json`
+- **Environment**: `/home/beauty/Beautylms/backend/.env.production`
+- **Firebase Key**: `/home/beauty/.credentials/serviceAccountKey.json`
 
 ### Important URLs
 - **Health Check**: `https://yourdomain.com/health`
